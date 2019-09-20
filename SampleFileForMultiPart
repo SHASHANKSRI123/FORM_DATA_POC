@@ -1,0 +1,36 @@
+package com.handle;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.web.client.RestTemplate;
+
+@SpringBootApplication
+public class TestingApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(TestingApplication.class, args);
+		System.out.print("hello");
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+		headers.set("Authorization",
+				"Basic MTk1ZGVkOTJhZDRiNDQ1ZWIzZDRiZDIwYmNiZWY5MDM6NTRFODA5ODg2MTJhNDEwNEE0NEM2ZkFBODc5NjkyNTE=");
+		headers.set("x-tid", "233");
+		headers.set("x-orgid", "00D1U0000012KWmUAM");
+		LinkedMultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
+		map.add("handlerConfig",
+				"{ \"configType\":\"MEDRA_SNOWFLAKE_GENERIC\", \"environment\":\"DEV\", \"genericConfig\":true, \"sourceInfo\":{ \"sourceName\":\"HEROKU\" }, \"operationInfo\":{ \"operationType\":\"CONFIGDATA\" } } ");
+		HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<String> resp = restTemplate.exchange(
+				"https://iqvia-element-heroku-exp-1-0-dev.us-e1.cloudhub.io/v1.0/api/config-handler", HttpMethod.POST,
+				requestEntity, String.class);
+		System.out.print(resp);
+	}
+
+}
