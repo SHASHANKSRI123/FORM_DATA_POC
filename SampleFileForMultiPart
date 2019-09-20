@@ -28,7 +28,7 @@ public class TestingApplication {
 		HttpEntity<LinkedMultiValueMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> resp = restTemplate.exchange(
-				"https://iqvia-element-heroku-exp-1-0-dev.us-e1.cloudhub.io/v1.0/api/config-handler", HttpMethod.POST,
+				"https://xyz.com", HttpMethod.POST,
 				requestEntity, String.class);
 		System.out.print(resp);
 	}
